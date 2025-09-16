@@ -78,12 +78,14 @@ unzip shell_check_v2.zip && rm -rf shell_check_v2.zip && mv shell_check_v2-main 
 
 ```bash
 python3 -m zipfile -e shell_check_v2.zip .
+rm -rf shell_check_v2.zip && mv shell_check_v2-main shell_check_v2
 ```
 
 ➤ Com `Python` 2.x:
 
 ```bash
 python -c "import zipfile; zipfile.ZipFile('shell_check_v2.zip', 'r').extractall('.')"
+rm -rf shell_check_v2.zip && mv shell_check_v2-main shell_check_v2
 ```
 
 ### ⚡ Execução
