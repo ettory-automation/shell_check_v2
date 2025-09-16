@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "shell-check-v2"
+version = "0.1.0"
+description = ""
+authors = ["Ettory Martins de Souza <ettory.devops@gmail.com>"]
+# readme = "README.md"
+packages = [{ include = "shell_check", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.12"
+rich = ">=14.1.0,<15.0.0"
+prompt-toolkit = ">=3.0.52,<4.0.0"
+pyfiglet = ">=1.0.4,<2.0.0"
+
+[tool.poetry.scripts]
+shell-check = "shell_check.main:show_menu"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

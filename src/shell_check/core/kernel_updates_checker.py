@@ -83,7 +83,7 @@ def display_table(title, data_dict):
 def display_kernel_info():
     distro = detect_distro()
     if not distro:
-        console.print(f"[{COLORS[1]}]Distribution not detected[/]{COLORS[1]}")
+        console.print("Distribution not detected", style=COLORS[1])
         return
 
     if distro == "debian":
@@ -101,14 +101,13 @@ def display_kernel_info():
     display_table("Installed Kernels", {"Installed Kernels": installed})
     display_table("Pending Kernel Updates", {"Updates": pending})
 
-    console.print(f"[{COLORS[2]}]Recent Kernel Update Logs[/]{COLORS[2]}")
+    console.print("Recent Kernel Update Logs", style=COLORS[2])
+    console.print()
     for line in logs:
         console.print(line)
 
-    console.print("\nPress ENTER to continue...")
-    input()
-
 def kernel_check():
+    console.print()
     display_kernel_info()
     console.print("\nPress ENTER to return to the menu...")
     input()
