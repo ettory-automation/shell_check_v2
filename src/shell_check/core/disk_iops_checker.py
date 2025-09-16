@@ -150,5 +150,5 @@ def disk_iops_check():
 
     check_io_results(disk_sel, limit_bytes)
 
-    console.print("\nPress ENTER to return to the menu...")
+    console.print("\nPress ENTER to return to the menu...", style=COLORS[2])
     input()
