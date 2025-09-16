@@ -116,4 +116,4 @@ poetry install
 python -m shell_check.main 
 ```
 
-## Caso surjam dúvidas sobre a utilização do Poetry, a documentação oficial da ferramenta se encontra [aqui](https://python-poetry.org/docs/)
+Caso surjam dúvidas sobre a utilização do Poetry, a documentação oficial da ferramenta se encontra [aqui](https://python-poetry.org/docs/)
