@@ -135,5 +135,5 @@ def cpu_check(conn):
     get_cpu_consumption(conn)
     get_consumption_per_core(conn)
     get_load_average(conn)
-    console.print("\nPress ENTER to return to menu...", style=COLORS[3])
+    console.print("\nPress ENTER to return to the menu...", style=COLORS[3])
     input()
