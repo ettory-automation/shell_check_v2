@@ -68,6 +68,7 @@ def sel_interface(conn: Connection):
 def set_interval():
     while True:
         interval_str = console.input("\nSampling Interval (sec): ").strip()
+        console.print()
         if interval_str.isdigit() and int(interval_str) > 0:
             return int(interval_str)
         console.print("Invalid interval. Use only integer numbers > 0.", style=ERROR)
@@ -93,14 +94,16 @@ def get_data_traffic(conn: Connection, inet: str, interval: int):
     sleep(interval)
     second_rx, second_tx = read_traffic(conn, inet)
 
-    table = Table(show_header=True, header_style=INFO, title=f"Traffic Data for [{inet}]", title_style=INFO, title_justify='center')
+    table = Table(show_header=True, header_style=INFO, title=f"Traffic Data for {inet}", title_style=INFO, title_justify='center')
     table.add_column("Sample", justify="left")
     table.add_column("RX (bytes)", justify="right")
     table.add_column("TX (bytes)", justify="right")
     table.add_row("First Collect", str(first_rx), str(first_tx))
     table.add_row("Second Collect", str(second_rx), str(second_tx))
 
+    console.print()
     console.print(table)
+    console.print()
     return first_rx, first_tx, second_rx, second_tx
 
 
@@ -128,6 +131,7 @@ def network_check(conn: Connection):
 
     interval = set_interval()
     console.print('Collecting data traffic...', style=SUCCESS)
+    console.print()
     first_rx, first_tx, second_rx, second_tx = get_data_traffic(conn, inet, interval)
     get_delta_diff_traffic(first_rx, first_tx, second_rx, second_tx, interval)
 
