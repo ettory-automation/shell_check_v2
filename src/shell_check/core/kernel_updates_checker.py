@@ -128,5 +128,5 @@ def display_kernel_info(conn: Connection):
 def kernel_check(conn: Connection):
     console.print()
     display_kernel_info(conn)
-    console.print("\nPress ENTER to return to the menu...")
+    console.print("\nPress ENTER to return to the menu...", style=INFO)
     input()
