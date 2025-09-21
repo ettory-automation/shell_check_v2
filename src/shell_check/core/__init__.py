@@ -1,4 +1,3 @@
-# src/shell_check/core/__init__.py
 from .banner import banner
 from .memory_checker import memory_check as memory_run
 from .cpu_checker import cpu_check as cpu_run

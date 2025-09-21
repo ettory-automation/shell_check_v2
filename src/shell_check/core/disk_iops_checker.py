@@ -1,87 +1,90 @@
 from rich.console import Console
 from rich.table import Table
-import subprocess
 import os
-from time import sleep
 import re
+from time import sleep
+from fabric import Connection
 
 console = Console()
 COLORS = ['green', 'red', 'purple']
 
-def get_block_size(disk_sel):
+INFO = COLORS[0]
+ERROR = COLORS[1]
+TITLE = COLORS[2]
+
+
+def get_block_size(conn: Connection, disk_sel: str):
     try:
-        return int(subprocess.check_output(
-            ['blockdev', '--getbsz', disk_sel],
-            stderr=subprocess.DEVNULL
-        ).strip())
-    except subprocess.CalledProcessError:
-        try:
-            path = f"/sys/block/{os.path.basename(disk_sel)}/queue/logical_block_size"
-            with open(path) as f:
-                return int(f.read().strip())
-        except Exception:
-            return 512
+        result = conn.run(f'blockdev --getbsz {disk_sel}', hide=True, warn=True)
+        if result.ok:
+            return int(result.stdout.strip())
+    except Exception:
+        pass
+
+    try:
+        disk_name = os.path.basename(disk_sel)
+        path = f"/sys/block/{disk_name}/queue/logical_block_size"
+        result = conn.run(f'cat {path}', hide=True, warn=True)
+        if result.ok:
+            return int(result.stdout.strip())
+    except Exception:
+        pass
+
+    return 512
 
 
-def select_disk():
+def select_disk(conn: Connection):
     while True:
-        os.system("clear")
-
-        result = subprocess.run(['lsblk', '-o', 'NAME,SIZE,TYPE,MOUNTPOINT'], capture_output=True, text=True)
+        conn.run('TERM=xterm clear', warn=True)
+        result = conn.run('lsblk -o NAME,SIZE,TYPE,MOUNTPOINT', hide=True)
         lines = result.stdout.strip().split('\n')
+        disks = []
 
         table = Table(
             show_header=True,
-            header_style=COLORS[2],
+            header_style=TITLE,
             title="Available Disks",
-            title_style=COLORS[2],
+            title_style=TITLE,
             title_justify='center'
         )
-        
         table.add_column("NAME", justify="left")
         table.add_column("SIZE", justify="right")
         table.add_column("TYPE", justify="left")
         table.add_column("MOUNTPOINT", justify="left")
 
-        disks = []
         for line in lines[1:]:
             parts = line.split()
-            name = parts[0]
-            size = parts[1]
-            typ = parts[2]
+            name, size, typ = parts[:3]
             mount = parts[3] if len(parts) > 3 else "-"
             table.add_row(name, size, typ, mount)
             if typ == "disk":
                 disks.append(name)
 
-        console.print()
-        console.print()
         console.print(table)
-
         console.print()
-        disk_sel = console.input(f"[{COLORS[2]}]Select disk (just name, e.g., sda):[/{COLORS[2]}] ").strip()
+        disk_sel = console.input(f"[{TITLE}]Select disk (just name, e.g., sda):[/{TITLE}] ").strip()
+        console.print()
         if disk_sel not in disks:
-            console.print()
-            console.print(f"Invalid or non-existent disk: {disk_sel}", style=COLORS[1])
+            console.print(f"Invalid or non-existent disk: {disk_sel}", style=ERROR)
             sleep(2)
-            console.print()
-            choice = console.input(f"[{COLORS[2]}]Return to menu? (y/n):[/{COLORS[2]}] ").strip().lower()
+            choice = console.input(f"[{TITLE}]Return to menu? (y/n):[/{TITLE}] ").strip().lower()
             if choice == "y":
                 return None
-            continue
-
+            else:
+                continue
         return f"/dev/{disk_sel}"
 
-def get_io_details(disk_sel):
+
+def get_io_details(conn: Connection, disk_sel: str):
     disk_name = os.path.basename(disk_sel)
-    result = subprocess.run(['vmstat', '1', '5'], capture_output=True, text=True)
+    result = conn.run('vmstat 1 5', hide=True)
     lines = result.stdout.strip().split('\n')
 
     table = Table(
         show_header=True,
-        header_style=COLORS[2],
+        header_style=TITLE,
         title=f"I/O Blocks {disk_name}",
-        title_style=COLORS[2],
+        title_style=TITLE,
         title_justify='center'
     )
     table.add_column("In Blocks", justify="right")
@@ -90,25 +93,17 @@ def get_io_details(disk_sel):
     for line in lines[2:]:
         parts = line.split()
         if len(parts) >= 10:
-            in_blocks = parts[8]
-            out_blocks = parts[9]
-            table.add_row(in_blocks, out_blocks)
+            table.add_row(parts[8], parts[9])
 
-    console.print()
-    console.print()
     console.print(table)
 
 
 def set_io_limit():
     console.print()
-    console.print()
-
-    input_val = console.input(f"[{COLORS[2]}]I/O Limit (e.g., 1G, 1M, 1K or bytes):[/{COLORS[2]}] ").strip().lower()
-    
+    input_val = console.input(f"[{TITLE}]I/O Limit (e.g., 1G, 1M, 1K or bytes):[/{TITLE}] ").strip().lower()
     match = re.match(r"^(\d+)([kmg]?)$", input_val)
-    
     if not match:
-        console.print(f"[{COLORS[1]}]Invalid value. Use numeric format with optional K, M, or G.[/{COLORS[1]}]")
+        console.print(f"[{ERROR}]Invalid value. Use numeric format with optional K, M, or G.[/{ERROR}]")
         sleep(2)
         return None
 
@@ -117,11 +112,12 @@ def set_io_limit():
     unit_multiplier = {'k': 1024, 'm': 1024*1024, 'g': 1024*1024*1024, '': 1}
     return num * unit_multiplier[unit]
 
-def check_io_results(disk_sel, limit_bytes):
-    block_size = get_block_size(disk_sel)
+
+def check_io_results(conn: Connection, disk_sel: str, limit_bytes: int):
+    block_size = get_block_size(conn, disk_sel)
     limit_blocks = limit_bytes // block_size
 
-    result = subprocess.run(['vmstat', '1', '5'], capture_output=True, text=True)
+    result = conn.run('vmstat 1 5', hide=True)
     lines = result.stdout.strip().split('\n')
     alert = False
 
@@ -133,22 +129,22 @@ def check_io_results(disk_sel, limit_bytes):
                 break
 
     if alert:
-        console.print(f"\nALERT: High I/O detected on disk {disk_sel}!", style=COLORS[1])
+        console.print(f"\nALERT: High I/O detected on disk {disk_sel}!", style=ERROR)
     else:
-        console.print(f"\nI/O within normal range for {disk_sel}.", style=COLORS[0])
+        console.print(f"\nI/O within normal range for {disk_sel}.", style=INFO)
 
-def disk_iops_check():
-    disk_sel = select_disk()
+
+def disk_iops_check(conn: Connection):
+    disk_sel = select_disk(conn)
     if not disk_sel:
         return
 
-    get_io_details(disk_sel)
-
+    get_io_details(conn, disk_sel)
     limit_bytes = set_io_limit()
     if limit_bytes is None:
         return
 
-    check_io_results(disk_sel, limit_bytes)
+    check_io_results(conn, disk_sel, limit_bytes)
 
-    console.print("\nPress ENTER to return to the menu...", style=COLORS[2])
+    console.print("\nPress ENTER to return to the menu...", style=TITLE)
     input()

@@ -1,9 +1,9 @@
 from rich.console import Console
 from rich.table import Table
 from pathlib import Path
-import subprocess
-import os
 from time import sleep
+from fabric import Connection
+import os
 
 COLOR = ['purple', 'green', 'red', 'yellow']
 console = Console()
@@ -14,39 +14,37 @@ ERROR = COLOR[2]
 WARNING = COLOR[3]
 
 
-def select_directory():
+def select_directory(conn):
     while True:
         console.print()
         console.print('Select directory or path: ', style=INFO, end='')
         input_directory_selection = input()
         console.print()
 
-        if Path(input_directory_selection).exists() == False:
-            console.print('This path not exists or not valid!', style=ERROR)
-        
+        result = conn.run(f'test -d "{input_directory_selection}"', warn=True)
+        if result.exited != 0:
+            console.print('This path does not exist or is not valid on the remote host!', style=ERROR)
+            
             while True:
                 console.print()
                 console.print("Back to menu? (y/n) ", style=INFO, end='')
-                choice = input()
-                
-                choice = choice.lower()
-
-                if choice == 'y':
-                    return None
-                elif choice == 'n':
+                choice = input().strip().lower()
+                if choice in ('y', 'n'):
                     break
-                else:
-                    console.print('\nInvalid option. Trying again...\n', style=ERROR)
-                    sleep(1)
+                console.print('\nInvalid input! Please type "y" or "n".\n', style=ERROR)
+
+            if choice == 'y':
+                return None
         else:
-            return Path(input_directory_selection)
-    
-def get_dir_analysis(directory):
+            return input_directory_selection
+
+
+
+def get_dir_analysis(conn: Connection, directory: Path):
     if not directory:
         return
     
-    result = subprocess.run(['df', '-h', '--output=source,iavail,ipcent,itotal', str(directory)], capture_output=True, text=True)
-
+    result = conn.run(f'df -h --output=source,iavail,ipcent,itotal {directory}', hide=True)
     lines = result.stdout.strip().split('\n')
     _, *rows = lines
 
@@ -78,37 +76,19 @@ def get_dir_analysis(directory):
 
     console.print(table)
 
-def get_dir_details(directory):
+
+def get_dir_details(conn: Connection, directory: Path):
     if not directory:
         return
 
-    find = [
-        'find', str(directory), '-xdev', '-type', 'd',
-        '-mindepth', '0', '-maxdepth', '5', '-print0'
-    ]
-
-    exclude_find = [
-        'grep', '-vzE', '/proc|/sys|/dev|/run|/var/lib/docker|/snap|/tmp'
-    ]
-
-    xargs = ['xargs', '-0', '-P', str(os.cpu_count()), '-n', '10', 'du', '-sh']
-    sort = ['sort', '-hr']
-    head = ['head', '-n', '15']
-
-    find_proc = subprocess.Popen(find, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    exclude_proc = subprocess.Popen(exclude_find, stdin=find_proc.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    
-    xargs_proc = subprocess.Popen(xargs, stdin=exclude_proc.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    exclude_proc.stdout.close()
-
-    sort_proc = subprocess.Popen(sort, stdin=xargs_proc.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    xargs_proc.stdout.close()
-
-    head_proc = subprocess.Popen(head, stdin=sort_proc.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    sort_proc.stdout.close()
-
-    output, _ = head_proc.communicate()
-    lines = output.decode().strip().split('\n')
+    cmd = (
+        f"find {directory} -xdev -type d -mindepth 0 -maxdepth 5 -print0 "
+        f"| grep -vzE '/proc|/sys|/dev|/run|/var/lib/docker|/snap|/tmp' "
+        f"| xargs -0 -P {os.cpu_count()} -n 10 du -sh "
+        f"| sort -hr | head -n 15"
+    )
+    result = conn.run(cmd, hide=True, warn=True)
+    lines = result.stdout.strip().split('\n')
 
     console.print()
 
@@ -132,13 +112,13 @@ def get_dir_details(directory):
 
     console.print(table)
 
-def disk_check():
-    directory = select_directory()
 
+def disk_check(conn: Connection):
+    directory = select_directory(conn)
     if not directory:
         return
     
-    get_dir_analysis(directory)
-    get_dir_details(directory)
+    get_dir_analysis(conn, directory)
+    get_dir_details(conn, directory)
     console.print('\n\nPress ENTER to return to the menu', style=INFO)
     input()

@@ -9,10 +9,20 @@ from prompt_toolkit.styles import Style
 from prompt_toolkit.validation import Validator, ValidationError
 from prompt_toolkit.formatted_text import HTML
 from shell_check.core import banner, memory_run, disk_run, network_run, cpu_run, iops_run, kernel_run
+from shell_check.ssh_runner.remote_conn import define_hostlist
+from shell_check.ssh_runner.remote_conn import create_ssh_session as ssh_session
 
 COLORS = ['red', 'green', 'purple']
-
 console = Console()
+
+def ensure_conn():
+    global conn
+    if not conn:
+        conn = ssh_session()
+        if not conn:
+            console.print("Session aborted. Returning to main menu.", style=COLORS[0])
+            return False
+    return True
 
 def show_menu():
     while True:
@@ -26,6 +36,7 @@ def show_menu():
         console.print('4) Disk IOPS Checker')
         console.print('5) Network Traffic Checker')
         console.print('6) Kernel Updates Checker')
+        console.print('7) Populate Hostlist File')
         console.print('0) Exit')
 
         session = PromptSession()
@@ -43,7 +54,7 @@ def show_menu():
 
                 if text == '':
                     return
-                if text not in [str(i) for i in range(7)]:
+                if text not in [str(i) for i in range(8)]:
                     raise ValidationError(message='Invalid option!', cursor_position=len(text)) 
 
         option = session.prompt(
@@ -54,22 +65,56 @@ def show_menu():
         
         match option:
             case '1':
-                memory_run()
+                conn = ssh_session()
+                if not conn:
+                    if not conn:
+                        console.print("Session aborted. Returning to main menu.", style=COLORS[0])
+                        continue
+                
+                memory_run(conn)
                 continue
             case '2':
-                cpu_run()
+                conn = ssh_session()
+                if not conn:
+                    if not conn:
+                        console.print("Session aborted. Returning to main menu.", style=COLORS[0])
+                        continue
+                cpu_run(conn)
                 continue
             case '3':
-                disk_run()
+                conn = ssh_session()
+                if not conn:
+                    if not conn:
+                        console.print("Session aborted. Returning to main menu.", style=COLORS[0])
+                        continue
+                disk_run(conn)
                 continue
             case '4':
-                iops_run()
+                conn = ssh_session()
+                if not conn:
+                    if not conn:
+                        console.print("Session aborted. Returning to main menu.", style=COLORS[0])
+                        continue
+                iops_run(conn)
                 continue
             case '5':
-                network_run()
+                conn = ssh_session()
+                if not conn:
+                    if not conn:
+                        console.print("Session aborted. Returning to main menu.", style=COLORS[0])
+                        continue
+                network_run(conn)
                 continue
             case '6':
-                kernel_run()
+                conn = ssh_session()
+                if not conn:
+                    if not conn:
+                        console.print("Session aborted. Returning to main menu.", style=COLORS[0])
+                        continue
+                kernel_run(conn)
+                continue
+            case '7':
+                define_hostlist()
                 continue
             case '0':
                 with Live(console=console, refresh_per_second=4) as live:
