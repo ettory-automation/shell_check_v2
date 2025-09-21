@@ -120,5 +120,5 @@ def disk_check(conn: Connection):
     
     get_dir_analysis(conn, directory)
     get_dir_details(conn, directory)
-    console.print('\n\nPress ENTER to return to the menu', style=INFO)
+    console.print('\n\nPress ENTER to return to the menu...', style=INFO)
     input()
