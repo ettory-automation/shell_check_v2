@@ -47,7 +47,7 @@ def sel_interface(conn: Connection):
             )
         console.print(table)
 
-        inet = console.input(f"\nType Network Interface: [{INFO}]").strip()
+        inet = console.input(f"\n[{INFO}]Type Network Interface: [/{INFO}]").strip()
         if inet not in iface_data:
             console.print(f"Interface selected '{inet}' does not exist!", style=ERROR)
             choice = console.input(f"\nBack to menu? (y/n) [{INFO}]").strip().lower()
@@ -67,7 +67,7 @@ def sel_interface(conn: Connection):
 
 def set_interval():
     while True:
-        interval_str = console.input("\nSampling Interval (sec): ").strip()
+        interval_str = console.input(f"\n[{INFO}]Sampling Interval (sec): [/{INFO}]").strip()
         console.print()
         if interval_str.isdigit() and int(interval_str) > 0:
             return int(interval_str)
