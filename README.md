@@ -106,11 +106,10 @@ pipx install poetry
 
 Observação: Caso já possua o Poetry instalado no sistema, pule esta etapa. Para verificar se já o possui, basta utilizar o comando `poetry --version`.
 
-➤ Entre dentro do diretório raiz do projeto e ative o virtual environment do Poetry:
+➤ Entre dentro do diretório raiz do projeto, onde se localiza o arquivo pyproject.toml:
 
 ```bash
-cd shell_check_v2/src
-source $(poetry env info -p)/bin/activate
+cd shell_check_v2
 ```
 
 ➤ Instale as dependências no virtual environment:
@@ -119,10 +118,16 @@ source $(poetry env info -p)/bin/activate
 poetry install
 ```
 
+➤ Ative o virtual environment do projeto via Poetry:
+
+```bash
+source $(poetry env info -p)/bin/activate
+```
+
 ➤ Execute o script com o comando abaixo, utilizando o Poetry:
 
 ```bash
-python -m shell_check.main 
+python -m src.shell_check.main 
 ```
 
 Nota: Para desativar o virtual environment do Poetry, basta utilizar o comando `deactivate`.
