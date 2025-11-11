@@ -1,6 +1,6 @@
 # 🖥️ Shell Check v2
 
-O `Shell Check v2` é uma ferramenta de diagnóstico e auditoria desenvolvida em Python, voltada para sistemas Linux-based. Seu objetivo é automatizar a coleta de dados do sistema operacional e apresentar outputs formatados e organizados, facilitando:
+O `Shell Check v2` é uma ferramenta de diagnóstico e auditoria desenvolvida em Python, voltada para sistemas GNU/Linux, com foco em distribuições Debian-like e RHEL-like. Seu objetivo é automatizar a coleta de dados do sistema operacional e apresentar outputs formatados e organizados, facilitando:
 
 - Análises de consumo de recursos computacionais
 - Verificações de configuração de serviços
