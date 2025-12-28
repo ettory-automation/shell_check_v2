@@ -1,0 +1,17 @@
+services:
+  shell_check:
+    build: .
+    image: shell_check:latest
+    container_name: shell_check_v2
+    volumes:
+      - /home/$USER/.ssh:/app/src/shell_check/ssh_runner/keyfile_control:ro
+      - ./src/shell_check/ssh_runner/hosts_ctrl/hosts.txt:/app/src/shell_check/ssh_runner/hosts_ctrl/hosts.txt
+    environment:
+      - PYTHONBUFFERED=1
+      - PYTHONPATH=/app/src
+      - PYTHONDONTWRITEBYTECODE=1
+    stdin_open: true
+    tty: true
+    network_mode: "host"
+    pid: "host"
+  
