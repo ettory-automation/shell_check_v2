@@ -1,3 +1,14 @@
+"""
+Shell Check v2 - Agentless Infrastructure Audit Tool
+Copyright (C) 2025 Ettory Martins de Souza
+Licensed over the GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+__author__ = "Ettory Martins de Souza"
+__status__ = "Production"
+__version__ = "2.0.0"
+__maintainer__ = "Ettory Martins de Souza" 
+
 import os
 from time import sleep
 from rich.console import Console
