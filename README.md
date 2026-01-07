@@ -1,8 +1,8 @@
 # 🖥️ Shell Check v2
 > Ferramenta agentless de auditoria e diagnóstico de infraestrutura Linux
 
-**Desenvolvido por**: Ettory Martins de Souza
-**Versão**: 2.0.0 (Production Ready)
+- **Desenvolvido por**: Ettory Martins de Souza
+- **Versão**: 2.0.0 (Production Ready)
 
 O `Shell Check v2` é uma ferramenta de diagnóstico e auditoria desenvolvida em Python, voltada para sistemas GNU/Linux, com foco em distribuições Debian-like e RHEL-like. Seu objetivo é automatizar a coleta de dados do sistema operacional e apresentar outputs formatados e organizados, facilitando:
 
