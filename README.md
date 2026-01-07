@@ -148,3 +148,7 @@ Isso significa que você é livre para utilizar, modificar e distribuir o softwa
 2. Se houver modificação do software por parte de terceiros, e em conjunto sua distribuição como um serviço (SaaS) em qualquer grau, o código-fonte das modificações aplicadas deverá ser aberto.
 
 Consulte o arquivo `LICENSE` para mais detalhes.
+
+##📩 Contato
+
+Caso surjam dúvidas, sugestões ou necessidade de suporte especializado para implementação deste software em produção, entre em contato pelo link do [Linkedin](https://linkedin.com/in/ettorymartins)
