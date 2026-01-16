@@ -2,8 +2,8 @@ import pyfiglet
 from rich.console import Console
 from rich.text import Text
 
-TITLE = 'Set Hostlist'
-FONT = 'doom'
+TITLE = 'SET HOSTLIST'
+FONT = 'slant'
 COLOR = 'purple'
 
 console = Console()
