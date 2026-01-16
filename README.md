@@ -138,7 +138,7 @@ Nota: Para desativar o virtual environment do Poetry, basta utilizar o comando `
 
 ##### Caso surjam dúvidas sobre a utilização do Poetry, a documentação oficial da ferramenta se encontra [aqui](https://python-poetry.org/docs/)
 
-##⚖️ Licença
+## ⚖️ Licença
 
 Este projeto está licenciado sob a **GNU Affero General Public License v3.0 (AGLPv3)**.
 
@@ -149,6 +149,6 @@ Isso significa que você é livre para utilizar, modificar e distribuir o softwa
 
 Consulte o arquivo `LICENSE` para mais detalhes.
 
-##📩 Contato
+## 📩 Contato
 
 Caso surjam dúvidas, sugestões ou necessidade de suporte especializado para implementação deste software em produção, entre em contato pelo link do [Linkedin](https://linkedin.com/in/ettorymartins)
