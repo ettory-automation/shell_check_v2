@@ -63,7 +63,7 @@ Até o momento, o Shell Audit Orchestrator oferece as seguintes funcionalidades:
 Se o servidor possuir `git` instalado, basta executar:
 
 ```bash
-git clone https://github.com/ettory-automation/shell-audit-orchestrator.git
+git clone https://github.com/ettory-automation/shell-audit-orchestrator.git && mv shell-audit-orchestrator shell_check_v2
 ```
 
 ### 📥 Alternativa sem `git` (via `curl` ou `wget`):
