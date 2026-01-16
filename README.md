@@ -13,7 +13,8 @@ O `Shell Audit Orchestrator` é uma ferramenta de diagnóstico e auditoria desen
 
 Com foco na praticidade, o `Shell Audit Orchestrator` pode ser executado em ambientes locais (bare metal, VMs ou containers) ou remotos via SSH.
 
-<img width="664" height="417" alt="image" src="https://github.com/user-attachments/assets/918f119d-f123-4c7f-ae4b-832a329c2b0f" />
+<img width="525" height="358" alt="Screenshot From 2026-01-16 15-33-33" src="https://github.com/user-attachments/assets/fe64697e-6b59-4516-9118-e9f89dd85603" />
+
 
 ### ⚙️ Funcionalidades disponíveis
 
