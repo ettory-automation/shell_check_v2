@@ -2,8 +2,8 @@ import pyfiglet
 from rich.console import Console
 from rich.text import Text
 
-TITLE = 'Shell Check v2'
-FONT = 'doom'
+TITLE = 'AUDIT AUDIT ORCHESTRATOR'
+FONT = 'slant'
 COLOR = 'purple'
 
 console = Console()
