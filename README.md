@@ -1,23 +1,23 @@
-# 🖥️ Shell Check v2
+# 🖥️ Shell Audit Orchestrator
 > Ferramenta agentless de auditoria e diagnóstico de infraestrutura Linux
 
 - **Desenvolvido por**: Ettory Martins de Souza
 - **Versão**: 2.0.0 (Production Ready)
 
-O `Shell Check v2` é uma ferramenta de diagnóstico e auditoria desenvolvida em Python, voltada para sistemas GNU/Linux, com foco em distribuições Debian-like e RHEL-like. Seu objetivo é automatizar a coleta de dados do sistema operacional e apresentar outputs formatados e organizados, facilitando:
+O `Shell Audit Orchestrator` é uma ferramenta de diagnóstico e auditoria desenvolvida em Python, voltada para sistemas GNU/Linux, com foco em distribuições Debian-like e RHEL-like. Seu objetivo é automatizar a coleta de dados do sistema operacional e apresentar outputs formatados e organizados, facilitando:
 
 - Análises de consumo de recursos computacionais
 - Verificações de configuração de serviços
 - Visualização de logs para auditorias técnicas
 - Identificação de gargalos em ambientes produtivos
 
-Com foco na praticidade, o `Shell Check v2` pode ser executado em ambientes locais (bare metal, VMs ou containers) ou remotos via SSH.
+Com foco na praticidade, o `Shell Audit Orchestrator` pode ser executado em ambientes locais (bare metal, VMs ou containers) ou remotos via SSH.
 
 <img width="664" height="417" alt="image" src="https://github.com/user-attachments/assets/918f119d-f123-4c7f-ae4b-832a329c2b0f" />
 
 ### ⚙️ Funcionalidades disponíveis
 
-Até o momento, o Shell Check v2 oferece as seguintes funcionalidades:
+Até o momento, o Shell Audit Orchestrator oferece as seguintes funcionalidades:
 
 #### 📊 Análise de CPU:
 
@@ -63,7 +63,7 @@ Até o momento, o Shell Check v2 oferece as seguintes funcionalidades:
 Se o servidor possuir `git` instalado, basta executar:
 
 ```bash
-git clone https://github.com/ettory-automation/shell_check_v2.git
+git clone https://github.com/ettory-automation/shell-audit-orchestrator.git
 ```
 
 ### 📥 Alternativa sem `git` (via `curl` ou `wget`):
@@ -71,8 +71,8 @@ git clone https://github.com/ettory-automation/shell_check_v2.git
 Se o `git` não estiver disponível, use `curl` ou `wget` para baixar o projeto em formato `.zip`:
 
 ```bash
-curl -L -o shell_check_v2.zip https://github.com/ettory-automation/shell_check_v2/archive/refs/heads/main.zip || \
-wget -O shell_check_v2.zip https://github.com/ettory-automation/shell_check_v2/archive/refs/heads/main.zip 
+curl -L -o shell_check_v2.zip https://github.com/ettory-automation/shell-audit-orchestrator/archive/refs/heads/main.zip || \
+wget -O shell_check_v2.zip https://github.com/ettory-automation/shell-audit-orchestrator/archive/refs/heads/main.zip 
 ```
 
 #### 📂 Descompactando:
@@ -80,7 +80,7 @@ wget -O shell_check_v2.zip https://github.com/ettory-automation/shell_check_v2/a
 ➤ Com `unzip`:
 
 ```bash
-unzip shell_check_v2.zip && rm -rf shell_check_v2.zip && mv shell_check_v2-main shell_check_v2
+unzip shell_check_v2.zip && rm -rf shell_check_v2.zip && mv shell-audit-orchestrator-main shell_check_v2
 ```
 
 > ⚠️ Nota: Se o servidor não possuir `unzip`, utilize o `Python` nativo para descompactar.
@@ -89,14 +89,14 @@ unzip shell_check_v2.zip && rm -rf shell_check_v2.zip && mv shell_check_v2-main 
 
 ```bash
 python3 -m zipfile -e shell_check_v2.zip .
-rm -rf shell_check_v2.zip && mv shell_check_v2-main shell_check_v2
+rm -rf shell_check_v2.zip && mv shell-audit-orchestrator-main shell_check_v2
 ```
 
 ➤ Com `Python` 2.x:
 
 ```bash
 python -c "import zipfile; zipfile.ZipFile('shell_check_v2.zip', 'r').extractall('.')"
-rm -rf shell_check_v2.zip && mv shell_check_v2-main shell_check_v2
+rm -rf shell_check_v2.zip && mv shell-audit-orchestrator-main shell_check_v2
 ```
 
 ### ⚡ Execução
