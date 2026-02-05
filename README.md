@@ -4,6 +4,17 @@
 - **Desenvolvido por**: Ettory Martins de Souza
 - **Versão**: 2.0.0 (Production Ready)
 
+<br>
+
+<p align="center">
+  <img src='https://raw.githubusercontent.com/ettory-automation/skill-icons/main/icons/Python-Dark.svg' width='80' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src='https://raw.githubusercontent.com/ettory-automation/devicon/master/icons/poetry/poetry-original.svg' width='80' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src='https://raw.githubusercontent.com/ettory-automation/skill-icons/main/icons/Bash-Dark.svg' width='80' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src='https://raw.githubusercontent.com/ettory-automation/skill-icons/main/icons/Docker.svg' width='80' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p>
+
+<br>
+
 O `Shell Audit Orchestrator` é uma ferramenta de diagnóstico e auditoria desenvolvida em Python, voltada para sistemas GNU/Linux, com foco em distribuições Debian-like e RHEL-like. Seu objetivo é automatizar a coleta de dados do sistema operacional e apresentar outputs formatados e organizados, facilitando:
 
 - Análises de consumo de recursos computacionais
@@ -11,9 +22,15 @@ O `Shell Audit Orchestrator` é uma ferramenta de diagnóstico e auditoria desen
 - Visualização de logs para auditorias técnicas
 - Identificação de gargalos em ambientes produtivos
 
+<br>
+
 Com foco na praticidade, o `Shell Audit Orchestrator` pode ser executado em ambientes locais (bare metal, VMs ou containers) ou remotos via SSH.
 
 <img width="617" height="358" alt="Screenshot From 2026-01-16 15-35-23" src="https://github.com/user-attachments/assets/1ad87c51-b9ca-4e3a-9a2a-af4c1dd25cc4" />
+
+<br>
+<br>
+<br>
 
 ### ⚙️ Funcionalidades disponíveis
 
@@ -56,6 +73,8 @@ Até o momento, o Shell Audit Orchestrator oferece as seguintes funcionalidades:
 - Utilização de hostslists
 - Utilização de autenticação via SSH por passwords ou keys
 
+<br>
+
 ## 📦 Download e Utilização
 
 ### 🔁 Clonando com o Git (Recomendado)
@@ -65,6 +84,8 @@ Se o servidor possuir `git` instalado, basta executar:
 ```bash
 git clone https://github.com/ettory-automation/shell-audit-orchestrator.git && mv shell-audit-orchestrator shell_check_v2
 ```
+
+<br>
 
 ### 📥 Alternativa sem `git` (via `curl` ou `wget`):
 
@@ -98,6 +119,8 @@ rm -rf shell_check_v2.zip && mv shell-audit-orchestrator-main shell_check_v2
 python -c "import zipfile; zipfile.ZipFile('shell_check_v2.zip', 'r').extractall('.')"
 rm -rf shell_check_v2.zip && mv shell-audit-orchestrator-main shell_check_v2
 ```
+
+<br>
 
 ### ⚡ Execução
 
@@ -134,9 +157,11 @@ source $(poetry env info -p)/bin/activate
 python -m src.shell_check.main 
 ```
 
-Nota: Para desativar o virtual environment do Poetry, basta utilizar o comando `deactivate`.
+> ⚠️ Nota: Para desativar o virtual environment do Poetry, basta utilizar o comando `deactivate`.
 
 ##### Caso surjam dúvidas sobre a utilização do Poetry, a documentação oficial da ferramenta se encontra [aqui](https://python-poetry.org/docs/)
+
+<br>
 
 ## ⚖️ Licença
 
@@ -148,6 +173,8 @@ Isso significa que você é livre para utilizar, modificar e distribuir o softwa
 2. Se houver modificação do software por parte de terceiros, e em conjunto sua distribuição como um serviço (SaaS) em qualquer grau, o código-fonte das modificações aplicadas deverá ser aberto.
 
 Consulte o arquivo `LICENSE` para mais detalhes.
+
+<br>
 
 ## 📩 Contato
 
